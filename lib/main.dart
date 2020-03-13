@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
         const Locale('en','US'),
         const Locale('es','ES')
       ],
-      initialRoute: "/",
+      initialRoute: "home",
       routes: getApplicationRoutes(),
       onGenerateRoute: (settings) => MaterialPageRoute( builder: (context) => NoEncontradaPage()),
     );
