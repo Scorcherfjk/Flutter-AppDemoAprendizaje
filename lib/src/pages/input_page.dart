@@ -141,7 +141,6 @@ class _InputPageState extends State<InputPage> {
 
   }
 
-
   List<DropdownMenuItem<String>> getOptionsDropdown(){
 
     List<DropdownMenuItem<String>> lista = List();
