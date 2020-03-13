@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class InputPage extends StatefulWidget {
   InputPage({Key key}) : super(key: key);
@@ -12,6 +13,10 @@ class _InputPageState extends State<InputPage> {
   String _nombre = '';
   String _email = '';
   String _password = '';
+  String _fecha = '';
+  String _opcionSeleccionada = 'Volar';
+  List<String> _poderes = ['Volar', 'Invisibilidad','Fuerza','Invulnerabilidad','Regeneración'];
+  TextEditingController _inputDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +33,10 @@ class _InputPageState extends State<InputPage> {
           Divider(),
           _crearInputPassword(),
           Divider(),
+          _crearInputDate(context),
+          Divider(),
+          _crearInputDropDown(),
+          Divider(),
           _crearPersona(),
         ],
       ),
@@ -36,7 +45,7 @@ class _InputPageState extends State<InputPage> {
 
   Widget _crearInputText() {
     return TextField(
-      autofocus: true,
+      // autofocus: true,
       textCapitalization: TextCapitalization.sentences,
       decoration: InputDecoration(
         border: OutlineInputBorder(
@@ -93,10 +102,91 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
+  Widget _crearInputDate(BuildContext context) {
+    return TextField(
+      enableInteractiveSelection: false,
+      controller: _inputDateController,
+      decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(20.0),
+        ),
+        hintText: 'Fecha de nacimiento', //
+        labelText: 'Fecha de nacimiento',
+        suffixIcon: Icon(Icons.perm_contact_calendar),
+        icon: Icon(Icons.calendar_today),
+      ),
+      onTap: (){
+        FocusScope.of(context).requestFocus(FocusNode());
+        _selectDate(context);
+      },
+    );
+  }
+
+  _selectDate(BuildContext context) async {
+
+    DateTime picker = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1970),
+      lastDate: DateTime.now(),
+      locale: Locale('es','ES')
+      );
+    
+    if (picker != null) {
+      setState(() {
+        _fecha = DateFormat('dd/MM/yyyy').format(picker);
+        _inputDateController.text = _fecha;
+      });
+    } 
+
+  }
+
+
+  List<DropdownMenuItem<String>> getOptionsDropdown(){
+
+    List<DropdownMenuItem<String>> lista = List();
+
+    _poderes.forEach((poder){
+
+      lista.add(
+        DropdownMenuItem(
+          child: Text(poder),
+          value: poder,)
+      );
+
+    });
+
+    return lista;
+
+
+  }
+
+  Widget  _crearInputDropDown() {
+    return Row(
+      children: <Widget>[
+        Icon(Icons.select_all),
+        SizedBox(width: 30.0),
+        Expanded(
+          child: DropdownButton(
+            value: _opcionSeleccionada,
+            items: getOptionsDropdown(),
+            onChanged: (opt) {
+              setState(() {
+                _opcionSeleccionada = opt;
+              });
+            }
+          ),
+        )
+      ],
+    );
+  }
+
+
   Widget _crearPersona() {
     return ListTile(
       title: Text("Tu Nombre es: $_nombre"),
       subtitle: Text("Email : $_email"),
+      trailing: Text(_opcionSeleccionada),
     );
   }
 }
