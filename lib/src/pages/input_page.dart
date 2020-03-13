@@ -122,7 +122,7 @@ class _InputPageState extends State<InputPage> {
     );
   }
 
-  _selectDate(BuildContext context) async {
+  void _selectDate(BuildContext context) async {
 
     DateTime picker = await showDatePicker(
       context: context,
