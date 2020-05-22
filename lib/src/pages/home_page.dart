@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:curso_udemy_v2/src/providers/menu_provider.dart';
 import 'package:curso_udemy_v2/src/utils/icono_string_util.dart';
-import 'package:curso_udemy_v2/src/pages/alert_page.dart';
 
 class HomePage extends StatelessWidget {
   @override
